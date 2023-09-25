@@ -2,6 +2,11 @@ package com.demo.demo1.controllers;
 
 import com.demo.demo1.models.TicketModel;
 import com.demo.demo1.services.TicketService;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,21 +19,23 @@ public class TicketController {
     }
 
     @GetMapping("")
-    public String index() {
-        return service.getList();
+    public ResponseEntity<String> index(@RequestHeader("my-custom-header") String customHeader, HttpServletRequest request) {
+        System.out.println(customHeader);
+        System.out.println(request.getHeader("my-custom-header"));
+        return new ResponseEntity<>(service.getList(), HttpStatus.OK);
     }
 
     @GetMapping("/unbooked")
-    public String unbooked() {
-        return service.getUnbookedList();
+    public ResponseEntity<String>  unbooked() {
+        return new ResponseEntity<>(service.getUnbookedList(), HttpStatus.OK);
     }
 
     @PostMapping("/book")
-    public String book(@RequestBody TicketModel body) {
+    public ResponseEntity<String>  book(@RequestBody TicketModel body) {
         if (service.bookTicket(body)) {
-            return "success";
+            return new ResponseEntity<>("success", HttpStatus.OK);
         }
 
-        return "un success";
+        return new ResponseEntity<>("un success", HttpStatus.FORBIDDEN);
     }
 }
