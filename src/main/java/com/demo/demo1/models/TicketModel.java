@@ -1,8 +1,14 @@
 package com.demo.demo1.models;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "tickets")
 public class TicketModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String src;
     private String description;

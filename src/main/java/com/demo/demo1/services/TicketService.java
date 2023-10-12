@@ -2,16 +2,17 @@ package com.demo.demo1.services;
 
 import com.demo.demo1.dao.TicketDAO;
 import com.demo.demo1.models.TicketModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
 
+@Service
 public class TicketService {
+    @Autowired
     private TicketDAO ticketDAO;
-    public TicketService() {
-        super();
-        ticketDAO = new TicketDAO();
-    }
+
     public String getList() {
         List<TicketModel> list = ticketDAO.list();
         String[] tickets = new String[list.size()];

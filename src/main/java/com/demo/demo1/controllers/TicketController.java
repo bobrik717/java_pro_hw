@@ -1,21 +1,25 @@
 package com.demo.demo1.controllers;
 
 import com.demo.demo1.models.TicketModel;
+import com.demo.demo1.repository.TicketRepository;
 import com.demo.demo1.services.TicketService;
-import jakarta.servlet.http.HttpServlet;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.coyote.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/tickets")
 public class TicketController {
+    @Autowired
     private TicketService service;
-    public TicketController() {
-        super();
-        service = new TicketService();
+    private final TicketRepository ticketsRepository;
+
+    public TicketController(TicketRepository ticketsRepository) {
+        this.ticketsRepository = ticketsRepository;
     }
 
     @GetMapping("")
@@ -31,11 +35,21 @@ public class TicketController {
     }
 
     @PostMapping("/book")
-    public ResponseEntity<String>  book(@RequestBody TicketModel body) {
+    public ResponseEntity<String>  book(@RequestBody @Validated TicketModel body) {
         if (service.bookTicket(body)) {
             return new ResponseEntity<>("success", HttpStatus.OK);
         }
 
         return new ResponseEntity<>("un success", HttpStatus.FORBIDDEN);
+    }
+
+    @GetMapping("/all")
+    public Iterable<TicketModel> findAllEmployees() {
+        return this.ticketsRepository.findAll();
+    }
+
+    @PostConstruct
+    void fillDb() {
+        System.out.println("tickets controller created");
     }
 }

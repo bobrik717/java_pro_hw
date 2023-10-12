@@ -1,12 +1,12 @@
 package com.demo.demo1.dao;
 
 import com.demo.demo1.models.TicketModel;
+import org.springframework.stereotype.Repository;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+@Repository
 public class TicketDAO {
     private List<TicketModel> db = new ArrayList<>();
     public TicketDAO() {
