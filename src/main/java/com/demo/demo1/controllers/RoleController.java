@@ -34,7 +34,7 @@ public class RoleController {
         Role role = service.save(model);
         return new ResponseEntity<>(role.toString(), HttpStatus.OK);
     }
-    @PutMapping("/update")
+    @PutMapping("/save")
     public ResponseEntity<String> update(@RequestBody Role model) {
         Role role = service.save(model);
         return new ResponseEntity<>(role.toString(), HttpStatus.OK);

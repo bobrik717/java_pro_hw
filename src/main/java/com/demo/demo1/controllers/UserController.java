@@ -35,7 +35,7 @@ public class UserController {
         User user = service.save(model);
         return new ResponseEntity<>(user.toString(), HttpStatus.OK);
     }
-    @PutMapping("/update")
+    @PutMapping("/save")
     public ResponseEntity<String> update(@RequestBody UserDTO model) {
         User user = service.update(model);
         return new ResponseEntity<>(user.toString(), HttpStatus.OK);
