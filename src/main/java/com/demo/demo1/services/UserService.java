@@ -6,6 +6,7 @@ import com.demo.demo1.models.User;
 import com.demo.demo1.repository.RoleRepository;
 import com.demo.demo1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,6 +17,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public Iterable<User> all() {
         return userRepository.findAll();
@@ -29,6 +32,8 @@ public class UserService {
     public User save(UserDTO userDTO) {
         User user = new User();
         user.setName(userDTO.getName());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
         Role role = roleRepository.findById(userDTO.getRole_id()).orElse(null);
         user.setRole(role);
@@ -38,6 +43,8 @@ public class UserService {
         User user = new User();
         user.setId(userDTO.getId());
         user.setName(userDTO.getName());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
         Role role = roleRepository.findById(userDTO.getRole_id()).orElse(null);
         user.setRole(role);
